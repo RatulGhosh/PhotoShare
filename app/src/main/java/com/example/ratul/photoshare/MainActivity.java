@@ -1,11 +1,23 @@
 package com.example.ratul.photoshare;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,14 +49,65 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == GALLERY_REQUEST_CODE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK && data != null) {
+                byte[] pictureContents = loadImage(data.getData());
 
+                if(pictureContents != null) {
+                    ParseObject photoObject = new ParseObject("Photo");
+                    //photoObject.put("photographer");
+                    photoObject.put("Photo", new ParseFile(pictureContents));
+                    photoObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null){
+                                Toast.makeText(MainActivity.this,"Successfully saved photo", Toast.LENGTH_SHORT).show();
+
+                            }else{
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
             }
         }
+    }
+
+    private byte[] loadImage(Uri pathToImage){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        InputStream fileInputStream = null;
+        try {
+             fileInputStream = getContentResolver().openInputStream(pathToImage);
+
+            byte buffer[] = new byte[1024];
+            while (fileInputStream.read(buffer)!= -1){
+                outputStream.write(buffer,0,buffer.length);
+            }
+            return outputStream.toByteArray();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(fileInputStream != null)
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+        return null;
     }
 
     @Override
