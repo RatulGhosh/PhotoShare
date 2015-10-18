@@ -12,7 +12,7 @@ public class PhotoShareApplication extends Application {
 
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "KEYS", "KEYS");
+        Parse.initialize(this, "K7CZZOiArTAavi88SJkkNoszDMXGfCHWuCsBCgjY", "XQeoVC8Ui3Ey3VsBHkiJcloa7IVmMOsKzjeAgaW0");
 
     }
 }
