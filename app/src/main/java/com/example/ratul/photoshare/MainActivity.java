@@ -9,15 +9,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ratul.photoshare.utils.FileUtils;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         testObject.put("foo", "bar");//document data base : equivalent to foo : bar
         testObject.saveInBackground();*/
     }
+
+    @SuppressWarnings("unused")
     @OnClick(R.id.main_button_Take_Photo)
     public void onTakePhotoButtonClick(){
         Intent intent = new Intent();
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void savePhoto(Uri pathToImage){
-        byte[] pictureContents = loadImage(pathToImage);
+        byte[] pictureContents = FileUtils.loadImage(pathToImage, this);
 
         if(pictureContents != null) {
             ParseObject photoObject = new ParseObject("Photo");
@@ -82,38 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private byte[] loadImage(Uri pathToImage){
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        InputStream fileInputStream = null;
-        try {
-             fileInputStream = getContentResolver().openInputStream(pathToImage);
-
-            byte buffer[] = new byte[1024];
-            while (fileInputStream.read(buffer)!= -1){
-                outputStream.write(buffer,0,buffer.length);
-            }
-            return outputStream.toByteArray();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(fileInputStream != null)
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-        return null;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
