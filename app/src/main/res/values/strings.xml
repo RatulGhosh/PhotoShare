@@ -3,4 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="sign_in_facebook">Sign In With Facebook</string>
+    <string name="login_title">Log In</string>
 </resources>

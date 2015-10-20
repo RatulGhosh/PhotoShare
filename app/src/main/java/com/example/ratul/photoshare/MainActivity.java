@@ -55,26 +55,31 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == GALLERY_REQUEST_CODE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK && data != null) {
-                byte[] pictureContents = loadImage(data.getData());
-
-                if(pictureContents != null) {
-                    ParseObject photoObject = new ParseObject("Photo");
-                    //photoObject.put("photographer");
-                    photoObject.put("Photo", new ParseFile(pictureContents));
-                    photoObject.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null){
-                                Toast.makeText(MainActivity.this,"Successfully saved photo", Toast.LENGTH_SHORT).show();
-
-                            }else{
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                }
+                savePhoto(data.getData());
             }
         }
+    }
+
+    private void savePhoto(Uri pathToImage){
+        byte[] pictureContents = loadImage(pathToImage);
+
+        if(pictureContents != null) {
+            ParseObject photoObject = new ParseObject("Photo");
+            //photoObject.put("photographer");
+            photoObject.put("Photo", new ParseFile(pictureContents));
+            photoObject.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+                        Toast.makeText(MainActivity.this, "Successfully saved photo", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
     }
 
     private byte[] loadImage(Uri pathToImage){

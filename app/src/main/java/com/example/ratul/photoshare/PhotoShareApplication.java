@@ -2,6 +2,8 @@ package com.example.ratul.photoshare;
 
 import android.app.Application;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
+
 /**
  * Created by Ratul on 10/17/2015.
  */
@@ -13,6 +15,7 @@ public class PhotoShareApplication extends Application {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "K7CZZOiArTAavi88SJkkNoszDMXGfCHWuCsBCgjY", "XQeoVC8Ui3Ey3VsBHkiJcloa7IVmMOsKzjeAgaW0");
+        ParseFacebookUtils.initialize(this);
 
     }
 }
