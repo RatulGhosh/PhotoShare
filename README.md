@@ -1,2 +1,2 @@
 # PhotoShare
-A simple android application where a user a share photos with other users.
+A simple android application where a user can share photos with other users.
