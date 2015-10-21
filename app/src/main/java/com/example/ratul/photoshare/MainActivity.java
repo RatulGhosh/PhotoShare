@@ -9,10 +9,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ratul.photoshare.model.Photo;
 import com.example.ratul.photoshare.utils.FileUtils;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import butterknife.Bind;
@@ -62,14 +63,24 @@ public class MainActivity extends AppCompatActivity {
         byte[] pictureContents = FileUtils.loadImage(pathToImage, this);
 
         if(pictureContents != null) {
+
+
+            /*Instead of using parse object we are creating our custom class
             ParseObject photoObject = new ParseObject("Photo");
-            //photoObject.put("photographer");
             photoObject.put("Photo", new ParseFile(pictureContents));
-            photoObject.saveInBackground(new SaveCallback() {
+            photoObject.put("photographer", ParseUser.getCurrentUser());
+            photoObject.saveInBackground(new SaveCallback()*/
+
+            Photo photo = new Photo();
+            photo.setPhoto(new ParseFile(pictureContents));
+            photo.setPhotographer(ParseUser.getCurrentUser());
+
+
+            photo.saveInBackground(new SaveCallback(){
                 @Override
                 public void done(ParseException e) {
                     if(e == null){
-                        Toast.makeText(MainActivity.this, "Successfully saved photo", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Successfully saved Photo", Toast.LENGTH_SHORT).show();
 
                     }else{
                         e.printStackTrace();
