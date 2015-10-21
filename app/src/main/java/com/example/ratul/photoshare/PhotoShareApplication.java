@@ -19,7 +19,7 @@ public class PhotoShareApplication extends Application {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "K7CZZOiArTAavi88SJkkNoszDMXGfCHWuCsBCgjY", "XQeoVC8Ui3Ey3VsBHkiJcloa7IVmMOsKzjeAgaW0");
         ParseFacebookUtils.initialize(this);
-        ParseObject.create(Photo.class);
+        ParseObject.registerSubclass(Photo.class);
 
     }
 }

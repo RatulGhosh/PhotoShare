@@ -14,13 +14,13 @@ public class Photo extends ParseObject {
         return getParseUser("photographer");
     }
     public void setPhotographer(ParseUser photographer){
-        put("photo",photographer);
+        put("Photographer",photographer);
     }
     public ParseFile getPhoto(){
         return getParseFile("photo");
     }
     public void setPhoto(ParseFile photo){
-        put("photo",photo);
+        put("Photo",photo);
     }
 
 }
