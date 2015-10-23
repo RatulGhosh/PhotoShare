@@ -7,4 +7,4 @@ A simple android application where a user can login using facebook and share pho
 
 ### License
 
-Note that chat_room is distributed under the [MIT License](http://opensource.org/licenses/MIT).
+Note that photoshare is distributed under the [MIT License](http://opensource.org/licenses/MIT).
