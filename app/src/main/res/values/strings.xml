@@ -6,4 +6,5 @@
     <string name="sign_in_facebook">Sign In With Facebook</string>
     <string name="login_title">Log In</string>
     <string name="facebook_app_id">159743767707171</string>
+    <string name="title_activity_photos">PhotosActivity</string>
 </resources>
