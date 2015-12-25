@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"),GALLERY_REQUEST_CODE);
 
     }
+    @SuppressWarnings("unused")
+    @OnClick(R.id.main_button_view_photos)
+    public void onViewPhotosButtonClicked() {
+        startActivity(new Intent(this, PhotosActivity.class));
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

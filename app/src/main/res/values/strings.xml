@@ -7,4 +7,5 @@
     <string name="login_title">Log In</string>
     <string name="facebook_app_id">159743767707171</string>
     <string name="title_activity_photos">PhotosActivity</string>
+    <string name="view_photos">View Photos</string>
 </resources>

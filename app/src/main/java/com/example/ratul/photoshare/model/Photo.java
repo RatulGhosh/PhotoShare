@@ -11,13 +11,13 @@ import com.parse.ParseUser;
 @ParseClassName("Photo")
 public class Photo extends ParseObject {
     public ParseUser getPhotographer(){
-        return getParseUser("photographer");
+        return getParseUser("Photographer");
     }
     public void setPhotographer(ParseUser photographer){
         put("Photographer",photographer);
     }
     public ParseFile getPhoto(){
-        return getParseFile("photo");
+        return getParseFile("Photo");
     }
     public void setPhoto(ParseFile photo){
         put("Photo",photo);
