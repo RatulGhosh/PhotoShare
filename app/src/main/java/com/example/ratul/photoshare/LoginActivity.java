@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity{
     @SuppressWarnings("unused")
     @OnClick(R.id.login_button_facebook)
     public  void onFacebookButtonClicked() {
-        ArrayList<String> permissions = new ArrayList<>(Arrays.asList(new String[]{"email"}));
+        ArrayList<String> permissions = new ArrayList<>(Arrays.asList(new String[]{"email","user_friends"}));
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions,
                 new LogInCallback() {
 
