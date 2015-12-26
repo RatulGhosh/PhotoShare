@@ -4,10 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +30,7 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(ParseUser.getCurrentUser()!=null){
-            onLoginInSuccess();
+            onLogInSuccess();
         }else{
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
@@ -40,7 +47,7 @@ public class LoginActivity extends AppCompatActivity{
                     @Override
                     public void done(ParseUser parseUser, ParseException e) {
                         if (e == null) {
-                            onLoginInSuccess();
+                            onLogInSuccess();
                         } else {
                             e.printStackTrace();
                         }
@@ -52,9 +59,42 @@ public class LoginActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
-    private void onLoginInSuccess(){
-        startActivity(new Intent(this,MainActivity.class));
-        finish();
+    private void initFacebookData() {
+        GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
+                String facebookId = jsonObject.optString("id");
+                ParseUser.getCurrentUser().put("facebookId", facebookId);
+                ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null)
+                            updatePushData();
+                        else
+                            e.printStackTrace();
+                    }
+                });
+            }
+        }).executeAsync();
+    }
 
+    private void updatePushData() {
+        ParseInstallation.getCurrentInstallation()
+                .put("user", ParseUser.getCurrentUser());
+
+        ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null)
+                    onLogInSuccess();
+                else
+                    e.printStackTrace();
+            }
+        });
+    }
+
+    private void onLogInSuccess() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

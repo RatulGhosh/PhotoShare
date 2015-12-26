@@ -6,6 +6,7 @@ import com.example.ratul.photoshare.model.Photo;
 import com.example.ratul.photoshare.model.PhotoTarget;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
 /**
@@ -22,6 +23,6 @@ public class PhotoShareApplication extends Application {
         ParseFacebookUtils.initialize(this);
         ParseObject.registerSubclass(Photo.class);
         ParseObject.registerSubclass(PhotoTarget.class);
-
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 }
